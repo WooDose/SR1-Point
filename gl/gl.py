@@ -48,10 +48,10 @@ class Render(object):
         ]
 
     def glClearColor(self, r,g,b):
-        self.clearColor = color(r,g,b)
+        self.clearColor = color(int(r*255),int(g*255),int(b*255))
 
     def glColor(self, r,g,b):
-        self.drawColor = color(r,g,b)
+        self.drawColor = color(int(r*255),int(g*255),int(b*255))
 
     def point(self,x,y):
         self.framebuffer[x][y] = self.drawColor
@@ -59,6 +59,8 @@ class Render(object):
     def glVertex(self, x,y): 
         xW = int(((x+1)*(self.ViewportWidth/2))+self.xNormalized)
         yW = int(((y+1)*(self.ViewportHeight/2))+self.yNormalized)
+        xW = (xW - 1) if xW == self.width else xW
+        yW = (yW - 1) if yW == self.height else yW
         self.point(xW, yW)
 
     def glFinish(self, filename):
@@ -113,9 +115,9 @@ class Render(object):
 ##Please for the love of God don't use non-4 multiples for your dimensions unless you want to absoultely do you know what to your you know what.
 
 bitmap = Render(80,80,80,80, 0, 0)
-bitmap.glColor(0, 128, 128)
+bitmap.glColor(0, 0.5, 0.75)
 # for x in range(20, 30):
 #     for y in range(20, 30):
 #         bitmap.glVertex(x, y)
-bitmap.glVertex(-0.5,.75) 
+bitmap.glVertex(1,1) 
 bitmap.glFinish(r'woodose.bmp')
